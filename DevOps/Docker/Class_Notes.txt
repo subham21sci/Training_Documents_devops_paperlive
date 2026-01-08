@@ -345,3 +345,129 @@ Next :::
 	
 				- It is used to Create a Container Image from the scratch based on the Dockerfile Instructions
 				- Used by the Developers to Containerize the Applications
+
+
+######################
+Day 21: 8th Jan. 2026
+######################	
+
+	- Create the Container Images ::::
+	
+	- Docker Compose :::
+	
+	- Container Orchestration using Docker Swarm & Kubernetes :::
+	
+
+	- Create the Container Images ::::
+	
+		- Docker Commit :::	
+				
+				- It is used to Create a Container Image based on the existing Container reference.
+				- Used by the Infra-Structure Management Team
+				
+				- To Create a Server Template! 
+				
+					Amazon AMI :::
+				
+				
+			Syntax :::
+			
+				docker commit <Container_ID> <dockerhub_repository_name>/<New_Image_Name>:<tag>
+				
+				
+				Eg.: 
+				
+					docker commit 32d360c56b7d loksaieta/pl-appbuild_img1:v1.0
+					
+					
+	- Publish/Push Container Images to Container Registry ::::
+	
+	
+		- docker login 		# Login to Container Registry using Docker cli.
+		
+			- User Name :
+			
+			- Password(Access Token) :
+			
+			- Create DockerHub Access Token :::
+			
+				- Login to DockerHub using Web Browser 
+					- Goto setting and create one!
+					
+			
+				To use the access token from your Docker CLI client:
+
+				1. Run
+
+				docker login -u loksaieta
+				
+				2. At the password prompt, enter the personal access token.
+
+				asdfasdfsdsdafcscE
+	
+		
+	
+		- docker push <dockerhub_repository_name>/<New_Image_Name>:<tag>
+		
+			Eg.: 
+			
+				docker push loksaieta/pl-appbuild_img1:v1.0
+				
+		- docker pull loksaieta/pl-appbuild_img1:v1.0
+			
+		
+	- Docker Build :::
+	
+		- It is used to Create a Container Image from the scratch based on the Dockerfile Instructions
+		- Used by the Developers to Containerize the Applications	
+		
+		
+		vi Dockerfile 
+		
+		FROM ubuntu		
+		RUN apt update -y 
+		RUN apt install git -y		
+		RUN apt install maven -y
+		
+		
+		Syntax: 
+		
+			docker build -t <dockerhub_repository_name>/<New_Image_Name>:<tag> .		# '.' refers to Dockerfile reference.
+			
+		Eg.: 
+		
+			docker build -t loksaieta/pl-javaappimg .
+
+		Dockerfile Instructions ::::		
+		
+			FROM 									# To Identify the Base Image
+			RUN 									# To run the package manager
+			COPY 									# To Copy the file from host volume to container volume
+			CP 										# To Copy the file within the container volumes 
+			ADD 									# To Copy the file from Host Volume as well as from URL
+			ENV 									# To define the Environment Variable 
+			ARG 									# To pass Arguements to the Steps in Dockerfile 
+			EXPOSE									# To Define the Container Port 
+			WORKDIR									# To set the current working directory within the Container 
+			CMD										# To set the default start-up command to the container 
+													  This Command can be changed at run-time.
+			ENTRYPOINT								# To set the default start-up command to the container 
+													  This Command cannot be changed at run-time.	 
+		
+		
+		Scenario :::
+		
+			Build_Server:
+			
+				--> Created target/*.war
+
+				--> Create a Dockerfile to package this application using Tomcat
+				
+				
+			vi Dockerfile 
+			
+			FROM tomcat:8.0
+			COPY target/*.war /usr/local/tomcat/webapps
+			EXPOSE 8080
+		
+		
