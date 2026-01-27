@@ -1,0 +1,163 @@
+
+DevOps Project:::
+
+Terraform ::::
+
+	DevOps Pipeline :::
+	
+	Using DevOps Pipeline we can Dynamically Create the Resources & Configure Resources :::
+	
+	
+	Scenario 1 :::
+	
+	CICD Pipeline Stages :
+	
+		: SCM_Checkout	-->		App_Build	-->		Deploy to Target
+		
+	CICD Pipeline to Deploy the artifacts to Test server & Automate QA Test & Deploy to Prod 
+		
+	: 	-->		SCM_Checkout	
+	
+		-->		App_Build	
+		
+		-->		Deploy to QA_Server					# Request Test_Server
+		-->		QA_Testing 
+		--> 	Publish Test Testing 
+		
+		-->		Deploy to Prod
+	
+	
+	Scenario 2 :::
+	
+	Pipeline 1 : 	QA Server Provisioning & Configurations
+	
+		- SCM-Checkout		-->		Create New_QA_Server(Terraform)		-->		Configure New_QA_Server(Ansible)	
+		
+		
+	Pipeline 2 : 	Application Build and Deployment
+	
+		- SCM-Checkout		-->		Application Build 		--> 	Deploy to New_QA_Server 	--> 	Automate_QA_Testing
+	
+	
+	
+	Scenario 3 ::: Dynamic Testing Servers for Automated Testing 
+	
+	
+	Pipeline 1 : 	QA Server Provisioning & Configurations, Application Build and Deployment ==> GitOps !
+	
+		- SCM-Checkout		-->		Application_Build 	-->		Create New_QA_Server(Terraform)		-->		Configure New_QA_Server(Ansible)	
+		
+																														|
+																														|
+																												
+																												Deploy to New_QA_Server
+																												
+																														|
+																														|
+																														
+																												Automated QA_Testing 
+																												
+																														|
+																														|
+																														
+																												Publish the QA Test Result 
+																												
+																														|
+																														|
+																														
+																												Destroy New_QA_Server(Terraform)
+																												
+																														|
+																														|
+																												Deploy to UAT_Server - beta testing
+																														|
+																														|
+																														
+																											
+																											
+	Pipeline 2 : Release Pipeline - Prod Implementations
+	
+
+
+DevOps Project ::::
+	
+	Use Case : Banking Domain!
+	
+	
+	How to Implement DevOps for the Application ::
+	
+- Prepare Jenkins CI-CD Pipeline Projects using Docker & Kubernetes ::
+	
+	
+	Pipeline Stages ::: 
+	
+	Create Jenkins CI Pipeline :	Using Docker & Kubernetes
+	
+	
+		1. SCM-Checkout
+		
+		2. Application Build 			*.war 
+		
+		3. Application Image Build 
+		
+		4. Login to DockerHub 
+		
+		5. Push to DockerHub 
+		
+		6. Deploy to Kubernetes
+		
+	
+	Resources : 
+	
+		Reuse if it is already available.
+		Else, Terraform to Create the below Servers 
+		
+		
+		Create AMI based on existing server and use it to create new servers. ****
+		
+
+			Servers :
+			
+				Jenkins_Master (VM)			==> To Create Jenkins CI/CD Pipeline Projects and schedule to the builds in the slave_nodes
+																		
+					Jenkins_SlaveNode1 (VM)	==> Perform Application Builds - Java Applications 
+					
+				Kubernetes_Master			==> Schedule the Deployments
+					Kubernetes_WorkerNode1
+					Kubernetes_WorkerNode2
+
+		
+		Create Ansile Playbooks to Configure the required tools in each server.
+		
+
+			Tools :
+
+				Jenkins_Master (VM)			==> GIT,jdk,Jenkins
+																		
+					Jenkins_SlaveNode1 (VM)	==> GIT,jdk,maven,docker 
+					(Build_Server)
+
+				Kubernetes_Master			==> Kubeadm,Kubectl,kubelet
+					Kubernetes_WorkerNode1
+					Kubernetes_WorkerNode2					
+				
+				
+			Other Dependencies ::
+			
+				Dockerhub access token
+				
+				Configure the Dockerhub access token in Jenkins using Jenkins Credential Manager
+				
+				Use SSH Connection between Jenkins and Kubernetes Master
+				
+					Create a user in Kubernetes Master 
+					Grant Access to Kubectl
+					Use Publish Over SSH Plugins to connect Kubernetes
+					
+		Enhance : using Github webhook, Enable Email Notifications at every stage of pipeline 
+				
+				
+
+Next:
+
+	AWS Cloud ::::
